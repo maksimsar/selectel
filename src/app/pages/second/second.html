@@ -1,0 +1,29 @@
+<div class="layout" *ngIf="data(); else loading">
+    <aside class="left">
+      <div *ngFor="let m of menus()">
+        <button type="button" (click)="selectMenu(m.id)">{{ m.title }}</button>
+      </div>
+    </aside>
+  
+    <main class="right">
+      <div class="top">
+        <div>Выбрано в этом меню: {{ selectedCountInActive() }}</div>
+        <div>Сумма в этом меню: {{ selectedSumInActive() | currency:'EUR':'symbol':'1.2-2' }}</div>
+      </div>
+  
+      <div class="list" *ngIf="activeMenu() as am">
+        <div *ngFor="let item of am.items">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="isChecked(am.id, item.id)"
+              (change)="toggle(am.id, item)"
+            />
+            {{ item.name }} — {{ item.price | currency:'EUR':'symbol':'1.2-2' }}
+          </label>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <ng-template #loading>Загрузка...</ng-template>
